@@ -1,15 +1,8 @@
-// @lcpr-before-debug-begin
-
-
-
-
-// @lcpr-before-debug-end
-
 /*
- * @lc app=leetcode.cn id=112 lang=cpp
+ * @lc app=leetcode.cn id=102 lang=cpp
  * @lcpr version=30117
  *
- * [112] 路径总和
+ * [102] 二叉树的层序遍历
  */
 
 // @lcpr-template-start
@@ -45,40 +38,51 @@ using namespace std;
 class Solution
 {
 public:
-    bool found = false;
-    bool hasPathSum(TreeNode *root, int targetSum)
+    vector<vector<int>> levelOrder(TreeNode *root)
     {
-        travel(root, targetSum);
-        return found;
-    }
-    void travel(TreeNode *root, int target)
-    {
-        if (root == nullptr || found)
+        vector<vector<int>>res;
+        queue<TreeNode*> que;
+        if (root == nullptr)
         {
-            return;
+            return {};
         }
-        if (target == root->val && (!root->left && !root->right))
+        que.push(root);
+        while (!que.empty())
         {
-            found = true;
-            return;
+            int sz = que.size();
+            vector<int> ans;
+            for (int i = 0; i < sz; i++)
+            {
+                TreeNode *tmp = que.front();
+                que.pop();
+                ans.push_back(tmp->val);
+                if (tmp->left)
+                {
+                    que.push(tmp->left);
+                }
+                if (tmp->right)
+                {
+                    que.push(tmp->right);
+                }
+            }
+            res.push_back(ans);
         }
-        travel(root->left, target - root->val);
-        travel(root->right, target - root->val);
+        return res;
     }
 };
 // @lc code=end
 
 /*
 // @lcpr case=start
-// [5,4,8,11,null,13,4,7,2,null,null,null,1]\n22\n
+// [3,9,20,null,null,15,7]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2,3]\n5\n
+// [1]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// []\n0\n
+// []\n
 // @lcpr case=end
 
  */

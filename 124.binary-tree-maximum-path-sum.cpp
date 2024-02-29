@@ -1,15 +1,8 @@
-// @lcpr-before-debug-begin
-
-
-
-
-// @lcpr-before-debug-end
-
 /*
- * @lc app=leetcode.cn id=112 lang=cpp
+ * @lc app=leetcode.cn id=124 lang=cpp
  * @lcpr version=30117
  *
- * [112] 路径总和
+ * [124] 二叉树中的最大路径和
  */
 
 // @lcpr-template-start
@@ -45,40 +38,36 @@ using namespace std;
 class Solution
 {
 public:
-    bool found = false;
-    bool hasPathSum(TreeNode *root, int targetSum)
+    int max_sum = INT_MIN;
+    int maxPathSum(TreeNode *root)
     {
-        travel(root, targetSum);
-        return found;
+        travel(root);
+        return max_sum;
     }
-    void travel(TreeNode *root, int target)
+    int travel(TreeNode *root)
     {
-        if (root == nullptr || found)
+        if (root == nullptr)
         {
-            return;
+            return 0;
         }
-        if (target == root->val && (!root->left && !root->right))
-        {
-            found = true;
-            return;
-        }
-        travel(root->left, target - root->val);
-        travel(root->right, target - root->val);
+
+        int l_len = travel(root->left);
+        int r_len = travel(root->right);
+        int l_sum=max(l_len,0);
+        int r_sum=max(r_len,0);
+        max_sum = max(max_sum, r_sum + l_sum + root->val);
+        return max(l_sum, r_sum) + root->val;
     }
 };
 // @lc code=end
 
 /*
 // @lcpr case=start
-// [5,4,8,11,null,13,4,7,2,null,null,null,1]\n22\n
+// [1,2,3]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2,3]\n5\n
-// @lcpr case=end
-
-// @lcpr case=start
-// []\n0\n
+// [-10,9,20,null,null,15,7]\n
 // @lcpr case=end
 
  */

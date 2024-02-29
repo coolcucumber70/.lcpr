@@ -1,15 +1,8 @@
-// @lcpr-before-debug-begin
-
-
-
-
-// @lcpr-before-debug-end
-
 /*
- * @lc app=leetcode.cn id=112 lang=cpp
+ * @lc app=leetcode.cn id=543 lang=cpp
  * @lcpr version=30117
  *
- * [112] 路径总和
+ * [543] 二叉树的直径
  */
 
 // @lcpr-template-start
@@ -45,40 +38,33 @@ using namespace std;
 class Solution
 {
 public:
-    bool found = false;
-    bool hasPathSum(TreeNode *root, int targetSum)
+    int max_length = 0;
+    int diameterOfBinaryTree(TreeNode *root){
+        int tmp=diameterOfBinaryTree1(root);
+        return max_length-1;
+    };
+    int diameterOfBinaryTree1(TreeNode *root)
     {
-        travel(root, targetSum);
-        return found;
-    }
-    void travel(TreeNode *root, int target)
-    {
-        if (root == nullptr || found)
+        if (root==nullptr)
         {
-            return;
+            return 0;
         }
-        if (target == root->val && (!root->left && !root->right))
-        {
-            found = true;
-            return;
-        }
-        travel(root->left, target - root->val);
-        travel(root->right, target - root->val);
+        
+        int l_len= diameterOfBinaryTree1( root->left);
+        int r_len=diameterOfBinaryTree1(root->right);
+        max_length=max(max_length,r_len+l_len+1);
+        return max(l_len,r_len)+1;
     }
 };
 // @lc code=end
 
 /*
 // @lcpr case=start
-// [5,4,8,11,null,13,4,7,2,null,null,null,1]\n22\n
+// [1,2,3,4,5]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2,3]\n5\n
-// @lcpr case=end
-
-// @lcpr case=start
-// []\n0\n
+// [1,2]\n
 // @lcpr case=end
 
  */

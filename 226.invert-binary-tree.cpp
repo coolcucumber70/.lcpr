@@ -1,16 +1,10 @@
-// @lcpr-before-debug-begin
-
-
-
-
-// @lcpr-before-debug-end
-
 /*
- * @lc app=leetcode.cn id=112 lang=cpp
+ * @lc app=leetcode.cn id=226 lang=cpp
  * @lcpr version=30117
  *
- * [112] 路径总和
+ * [226] 翻转二叉树
  */
+
 
 // @lcpr-template-start
 using namespace std;
@@ -42,43 +36,40 @@ using namespace std;
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution
-{
+class Solution {
 public:
-    bool found = false;
-    bool hasPathSum(TreeNode *root, int targetSum)
-    {
-        travel(root, targetSum);
-        return found;
+    TreeNode* invertTree(TreeNode* root) {
+        travel(root);
+        return root;
+
+
     }
-    void travel(TreeNode *root, int target)
-    {
-        if (root == nullptr || found)
-        {
-            return;
-        }
-        if (target == root->val && (!root->left && !root->right))
-        {
-            found = true;
-            return;
-        }
-        travel(root->left, target - root->val);
-        travel(root->right, target - root->val);
+    void travel(TreeNode* root){
+        if(root==nullptr)return;
+        TreeNode* tmp=root->left;
+        root->left=root->right;
+        root->right=tmp;
+        travel(root->left);
+        travel(root->right);
+
     }
 };
 // @lc code=end
 
+
+
 /*
 // @lcpr case=start
-// [5,4,8,11,null,13,4,7,2,null,null,null,1]\n22\n
+// [4,2,7,1,3,6,9]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2,3]\n5\n
+// [2,1,3]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// []\n0\n
+// []\n
 // @lcpr case=end
 
  */
+

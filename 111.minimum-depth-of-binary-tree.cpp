@@ -6,11 +6,12 @@
 // @lcpr-before-debug-end
 
 /*
- * @lc app=leetcode.cn id=112 lang=cpp
+ * @lc app=leetcode.cn id=111 lang=cpp
  * @lcpr version=30117
  *
- * [112] 路径总和
+ * [111] 二叉树的最小深度
  */
+
 
 // @lcpr-template-start
 using namespace std;
@@ -42,43 +43,48 @@ using namespace std;
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution
-{
+class Solution {
 public:
-    bool found = false;
-    bool hasPathSum(TreeNode *root, int targetSum)
-    {
-        travel(root, targetSum);
-        return found;
+    int depth=0;
+    int mindepth=INT_MAX;
+    int minDepth(TreeNode* root) {
+        if(!root)return 0;
+        travel(root);
+        return mindepth;
+
     }
-    void travel(TreeNode *root, int target)
-    {
-        if (root == nullptr || found)
+    void travel(TreeNode* root){
+        if(!root)return ;
+        depth++;
+        if (!root->left&&!root->right)
         {
+            mindepth=min(mindepth,depth);
+        }
+        if (depth>mindepth)
+        {
+            depth--;
             return;
         }
-        if (target == root->val && (!root->left && !root->right))
-        {
-            found = true;
-            return;
-        }
-        travel(root->left, target - root->val);
-        travel(root->right, target - root->val);
+        travel(root->left);
+        travel(root->right);
+        depth--;
+        
+        
+
     }
 };
 // @lc code=end
 
+
+
 /*
 // @lcpr case=start
-// [5,4,8,11,null,13,4,7,2,null,null,null,1]\n22\n
+// [3,9,20,null,null,15,7]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2,3]\n5\n
-// @lcpr case=end
-
-// @lcpr case=start
-// []\n0\n
+// [2,null,3,null,4,null,5,null,6]\n
 // @lcpr case=end
 
  */
+
